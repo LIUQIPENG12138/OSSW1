@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "점심 메뉴 룰렛 (Lunch Roulette)",
+  "version": "1.0.0",
+  "description": "오늘 점심 메뉴를 룰렛으로 간편하게 골라주는 크롬 확장 프로그램 (DU-FLEX 실습 7)",
+  "icons": {
+    "128": "icon.png"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "128": "icon.png"
+    },
+    "default_title": "점심 메뉴 룰렛 열기"
+  },
+  "permissions": [
+    "storage"
+  ]
+}
+
