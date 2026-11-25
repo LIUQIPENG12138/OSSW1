@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>동네 카페 매출 대시보드 | 社区咖啡店销售数据仪表板</title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 24px 16px;
+    }
+
+    .dashboard-container {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .dashboard-header {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .badge {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin-bottom: 8px;
+    }
+
+    .header-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .header-subtitle {
+      font-size: 1rem;
+      color: #475569;
+      margin-top: 4px;
+    }
+
+    .header-subtitle-zh {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* KPI Summary Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--primary);
+    }
+
+    .kpi-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .kpi-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .kpi-sub {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 4px;
+    }
+
+    /* Charts Grid */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .chart-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .chart-header {
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .chart-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .chart-subtitle-zh {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .canvas-container {
+      position: relative;
+      height: 340px;
+      width: 100%;
+    }
+
+    /* Table Section */
+    .table-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+      margin-top: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+
+    th, td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    tr:hover {
+      background: #f8fafc;
+    }
+
+    .weekend-row {
+      background: #fffbeb;
+      font-weight: 600;
+    }
+
+    .weekend-row:hover {
+      background: #fef3c7;
+    }
+
+    .text-right {
+      text-align: right;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .pill-weekend {
+      background: #fef08a;
+      color: #854d0e;
+    }
+
+    .pill-weekday {
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    /* Footer */
+    .dashboard-footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <header class="dashboard-header">
+      <span class="badge">📊 DU-FLEX 실습 3 · 实践 3</span>
+      <h1 class="header-title">☕ 달빛 블렌드 카페 — 30일 매출 대시보드</h1>
+      <p class="header-subtitle">가상 동네 카페 30일간 5대 대표 메뉴 판매량 및 매출 분석 현황</p>
+      <p class="header-subtitle-zh">月光漫步社区咖啡店 — 30天5大代表饮品销售量及营业额可视化分析仪表板</p>
+    </header>
+
+    <!-- 핵심 KPI 요약 -->
+    <section class="kpi-grid">
+      <div class="kpi-card" style="border-top-color: #0284c7;">
+        <div class="kpi-label">총매출 합계 · 总销售额</div>
+        <div id="kpiTotalRevenue" class="kpi-value">0원</div>
+        <div class="kpi-sub">30일간 누적 매출 합계</div>
+      </div>
+      <div class="kpi-card" style="border-top-color: #10b981;">
+        <div class="kpi-label">총 판매량 · 总销量</div>
+        <div id="kpiTotalVolume" class="kpi-value">0잔</div>
+        <div class="kpi-sub">5개 메뉴 누적 주문 수량</div>
+      </div>
+      <div class="kpi-card" style="border-top-color: #f59e0b;">
+        <div class="kpi-label">일평균 매출 · 日均销售额</div>
+        <div id="kpiAvgDailyRevenue" class="kpi-value">0원</div>
+        <div class="kpi-sub">30일 평균 일 매출</div>
+      </div>
+      <div class="kpi-card" style="border-top-color: #8b5cf6;">
+        <div class="kpi-label">최고 매출 요일 · 最高营业额周</div>
+        <div id="kpiTopWeekday" class="kpi-value">-</div>
+        <div class="kpi-sub">주말 피크 타임 효과</div>
+      </div>
+    </section>
+
+    <!-- 차트 영역 -->
+    <section class="charts-grid">
+      <!-- 기능 ①: 일별 매출 꺾은선 차트 -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h2 class="chart-title">📈 ① 30일 일별 매출 추이 (꺾은선 차트)</h2>
+          <p class="chart-subtitle-zh">30天每日销售额趋势折线图 (Daily Revenue Trend)</p>
+        </div>
+        <div class="canvas-container">
+          <canvas id="dailyRevenueChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 기능 ②: 메뉴별 판매량 막대 차트 -->
+      <div class="chart-card">
+        <div class="chart-header">
+          <h2 class="chart-title">📊 ② 5대 메뉴별 총 판매량 비교 (막대 차트)</h2>
+          <p class="chart-subtitle-zh">5大主打饮品总销售量柱状图 (Menu Sales Volume Comparison)</p>
+        </div>
+        <div class="canvas-container">
+          <canvas id="menuVolumeChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- 기능 ③: 요일별 평균 매출 표 -->
+    <section class="table-card">
+      <div class="chart-header">
+        <h2 class="chart-title">📅 ③ 요일별 평균 매출 분석표</h2>
+        <p class="chart-subtitle-zh">按星期统计的平均销售额及占比分析表 (Day-of-Week Average Revenue Table)</p>
+      </div>
+      <div class="table-responsive">
+        <table id="weekdayTable">
+          <thead>
+            <tr>
+              <th>요일 (星期)</th>
+              <th>구분 (分类)</th>
+              <th class="text-right">해당 요일 수 (天数)</th>
+              <th class="text-right">요일 총매출 (总额)</th>
+              <th class="text-right">요일 평균 매출 (日均额)</th>
+              <th class="text-right">매출 기여도 (占比)</th>
+            </tr>
+          </thead>
+          <tbody id="weekdayTableBody">
+            <!-- 동적으로 렌더링 -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="dashboard-footer">
+      <p>DU-FLEX 오픈소스소프트웨어 7주차 오프라인 실습 · Chart.js CDN 연동</p>
+    </footer>
+  </div>
+
+  <!-- 데이터 및 차트 스크립트 (3개 파일 제약) -->
+  <script src="data.js"></script>
+  <script src="chart.js"></script>
+</body>
+</html>
+

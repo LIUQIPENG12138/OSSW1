@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>결재 서류 잡기 게임 | 抓取审批文件游戏</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <header class="game-header">
+      <span class="badge">🎮 DU-FLEX 실습 5 · 实践 5</span>
+      <h1>📂 결재 서류 잡기!</h1>
+      <p class="subtitle">마감 시간 30초! 서류(📄)는 잡고, 커피(☕)는 피하세요!</p>
+      <p class="subtitle-zh">限时30秒！抓取紧急审批文件（📄），千万别碰洒咖啡（☕）！</p>
+    </header>
+
+    <!-- 게임 상태 바 (점수, 남은시간, 최고기록) -->
+    <section class="status-bar">
+      <div class="status-box">
+        <span class="status-label">현재 점수 · 当前分数</span>
+        <span id="currentScore" class="status-value score-value">0</span>
+      </div>
+      <div class="status-box timer-box">
+        <span class="status-label">남은 시간 · 剩余时间</span>
+        <span id="timeLeft" class="status-value timer-value">30초</span>
+      </div>
+      <div class="status-box">
+        <span class="status-label">최고 기록 · 历史最高分</span>
+        <span id="highScore" class="status-value highscore-value">0</span>
+      </div>
+    </section>
+
+    <!-- 타이머 진행 바 -->
+    <div class="timer-progress-container">
+      <div id="timerProgressBar" class="timer-progress-bar"></div>
+    </div>
+
+    <!-- 3x3 두더지잡기 게임 그리드 (기능 ①) -->
+    <main class="grid-board" id="gridBoard">
+      <div class="hole" data-index="0"><div class="mole" aria-hidden="true"></div></div>
+      <div class="hole" data-index="1"><div class="mole" aria-hidden="true"></div></div>
+      <div class="hole" data-index="2"><div class="mole" aria-hidden="true"></div></div>
+      <div class="hole" data-index="3"><div class="mole" aria-hidden="true"></div></div>
+      <div class="hole" data-index="4"><div class="mole" aria-hidden="true"></div></div>
+      <div class="hole" data-index="5"><div class="mole" aria-hidden="true"></div></div>
+      <div class="hole" data-index="6"><div class="mole" aria-hidden="true"></div></div>
+      <div class="hole" data-index="7"><div class="mole" aria-hidden="true"></div></div>
+      <div class="hole" data-index="8"><div class="mole" aria-hidden="true"></div></div>
+    </main>
+
+    <!-- 하단 컨트롤 & 규칙 안내 -->
+    <section class="controls-section">
+      <button id="startBtn" class="start-btn" type="button">
+        🚀 게임 시작 (30초) · 开始游戏
+      </button>
+
+      <div class="rule-box">
+        <div class="rule-item plus">
+          <span class="rule-icon">📄</span>
+          <span><strong>결재 서류</strong> 클릭: <strong>+10점</strong> (审批文件得10分)</span>
+        </div>
+        <div class="rule-item minus">
+          <span class="rule-icon">☕</span>
+          <span><strong>커피잔</strong> 클릭: <strong>-5점 감점</strong> (碰洒咖啡扣5分)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 게임 종료 모달 (기능 ③) -->
+    <div id="gameOverModal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <h2 id="modalTitle">⏰ 업무 종료! (Time Over)</h2>
+        <p class="modal-zh">30秒挑战结束！</p>
+        
+        <div class="modal-scores">
+          <div class="modal-score-item">
+            <span>이번 점수 (本次得分)</span>
+            <strong id="finalScore" class="highlight-score">0점</strong>
+          </div>
+          <div class="modal-score-item">
+            <span>최고 기록 (最高纪录)</span>
+            <strong id="modalHighScore">0점</strong>
+          </div>
+        </div>
+
+        <p id="newRecordNotice" class="new-record-notice hidden">
+          👑 축하합니다! 새로운 최고 기록을 달성했습니다! / 恭喜创下新纪录！
+        </p>
+
+        <div class="modal-stats">
+          <span>📄 결재 서류 완료: <strong id="statDocs">0</strong>건</span>
+          <span>☕ 커피 쏟음: <strong id="statCoffee">0</strong>회</span>
+        </div>
+
+        <button id="modalRestartBtn" class="restart-btn" type="button">
+          🔄 다시 도전하기 · 再来一局
+        </button>
+      </div>
+    </div>
+
+    <footer class="game-footer">
+      <p>DU-FLEX 오픈소스소프트웨어 7주차 오프라인 실습 · 순수 자바스크립트 미니게임</p>
+    </footer>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "집중 응원 배지",
+  "version": "1.0.0",
+  "description": "25분 집중 타이머와 오늘의 따뜻한 응원 문구, 집중 완료 횟수 카운터 (DU-FLEX 실습 6)",
+  "icons": {
+    "128": "icon.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "128": "icon.png"
+    },
+    "default_title": "집중 응원 배지 열기"
+  },
+  "permissions": [
+    "storage"
+  ]
+}

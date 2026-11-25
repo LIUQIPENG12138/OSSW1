@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>점심 메뉴 룰렛 | 午餐菜单轮盘</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <span class="badge">🎯 DU-FLEX 실습 2 · 实践 2</span>
+      <h1>🍽️ 점심 메뉴 룰렛</h1>
+      <p class="subtitle">오늘 점심 뭐 먹지? 고민 끝, 룰렛을 돌려보세요!</p>
+      <p class="subtitle-zh">今天午餐吃什么？转动轮盘，轻松决定今日美味！</p>
+    </header>
+
+    <main class="main-content">
+      <!-- 룰렛 영역 -->
+      <section class="roulette-section">
+        <div class="wheel-wrapper">
+          <div class="pointer" aria-hidden="true">▼</div>
+          <canvas id="wheelCanvas" width="420" height="420"></canvas>
+        </div>
+
+        <button id="spinBtn" class="spin-button" type="button">
+          🎲 룰렛 돌리기 (2초 회전) · 开始旋转
+        </button>
+
+        <!-- 결과 표시 카드 (기능 ②) -->
+        <div id="resultCard" class="result-card hidden">
+          <span class="result-label">🎉 오늘 추천 점심 메뉴 · 今日推荐午餐</span>
+          <div id="resultText" class="result-text">---</div>
+          <p class="result-desc">맛있게 드시고 든든한 하루 보내세요! / 祝您用餐愉快！</p>
+        </div>
+      </section>
+
+      <!-- 메뉴 목록 관리 영역 (기능 ① & ③) -->
+      <section class="menu-manager-section">
+        <div class="manager-header">
+          <h2>📋 메뉴 목록 관리 · 菜单管理</h2>
+          <span id="menuCountBadge" class="count-badge">0개</span>
+        </div>
+
+        <!-- 메뉴 입력 폼 -->
+        <form id="addMenuForm" class="add-form" onsubmit="return false;">
+          <input
+            type="text"
+            id="menuInput"
+            placeholder="새 메뉴 입력 (예: 부대찌개) / 输入新菜品"
+            maxlength="20"
+            autocomplete="off"
+            required
+          />
+          <button type="submit" id="addBtn" class="add-button">추가 · 添加</button>
+        </form>
+
+        <!-- 메뉴 목록 -->
+        <div class="menu-list-container">
+          <ul id="menuList" class="menu-list">
+            <!-- 동적으로 렌더링 -->
+          </ul>
+        </div>
+
+        <!-- 보조 버튼들 -->
+        <div class="actions-footer">
+          <button id="resetPresetBtn" class="secondary-btn" type="button">
+            🔄 기본 메뉴 복원 · 恢复默认菜单
+          </button>
+          <button id="clearAllBtn" class="danger-btn" type="button">
+            🗑️ 전체 삭제 · 清空列表
+          </button>
+        </div>
+        <p class="storage-notice">
+          💾 메뉴 목록은 브라우저(localStorage)에 자동 저장되어 새로고침 후에도 유지됩니다.
+        </p>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>DU-FLEX 오픈소스소프트웨어 7주차 오프라인 실습 · 순수 자바스크립트(Vanilla JS)</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+

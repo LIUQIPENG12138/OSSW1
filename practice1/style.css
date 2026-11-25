@@ -1,0 +1,310 @@
+/* ==========================================================================
+   DU-FLEX 7주차 실습 1: 내 취미 소개 홈페이지 (조깅)
+   DU-FLEX 第7周实践 1：我的爱好介绍静态网页（慢跑）
+   ========================================================================== */
+
+:root {
+  --primary-color: #0284c7;
+  --primary-dark: #0369a1;
+  --primary-light: #e0f2fe;
+  --accent-color: #f97316;
+  --accent-light: #ffedd5;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-sub: #64748b;
+  --bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --card-border: rgba(226, 232, 240, 0.9);
+  --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 10px 25px -5px rgba(2, 132, 199, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 20px 30px -10px rgba(2, 132, 199, 0.2);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-full: 9999px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Microsoft YaHei", sans-serif;
+  color: var(--text-main);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  min-height: 100vh;
+  line-height: 1.65;
+  padding: 24px 16px;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.page-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 40px 20px 32px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  margin-bottom: 32px;
+  backdrop-filter: blur(8px);
+}
+
+.badge {
+  display: inline-block;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+
+.title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.subtitle-zh {
+  font-size: 1.05rem;
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.tagline {
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  color: var(--text-muted);
+  max-width: 680px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.tagline-zh {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--text-sub);
+  margin-top: 6px;
+}
+
+/* Section styling */
+.section {
+  margin-bottom: 36px;
+}
+
+.section-title {
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  border-left: 5px solid var(--primary-color);
+}
+
+/* Emoji cards grid (기능 ②) */
+.emoji-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+  border-color: #bae6fd;
+}
+
+.emoji-icon {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 16px;
+  background: var(--primary-light);
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.card-zh {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 12px;
+}
+
+.card-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.card-desc-zh {
+  font-size: 0.88rem;
+  color: var(--text-sub);
+  line-height: 1.5;
+  border-top: 1px dashed #e2e8f0;
+  padding-top: 8px;
+  margin-top: auto;
+}
+
+/* 3-step guide (기능 ③) */
+.step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.step-item:hover {
+  border-color: #93c5fd;
+  box-shadow: var(--shadow-md);
+}
+
+.step-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+}
+
+.step-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.step-heading {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.step-heading-zh {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+}
+
+.step-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 6px;
+}
+
+.step-desc-zh {
+  font-size: 0.88rem;
+  color: var(--text-sub);
+  line-height: 1.5;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--text-sub);
+  font-size: 0.88rem;
+  border-top: 1px solid #cbd5e1;
+  margin-top: 40px;
+}
+
+.copyright {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* Mobile responsive media query */
+@media (max-width: 640px) {
+  body {
+    padding: 16px 12px;
+  }
+
+  .header {
+    padding: 28px 16px 24px;
+    margin-bottom: 24px;
+  }
+
+  .step-item {
+    flex-direction: column;
+    gap: 12px;
+    padding: 18px 16px;
+  }
+
+  .step-num {
+    width: 42px;
+    height: 42px;
+    font-size: 1.25rem;
+    border-radius: 10px;
+  }
+
+  .emoji-card-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 20px 18px;
+  }
+}
+
